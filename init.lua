@@ -5,7 +5,7 @@
 
 -- Parameters
 
-local YMAX = 33000 -- Maximum altitude for pools
+local YMAX = 170 -- Maximum altitude for pools
 local FLOW = 256
 
 -- Stuff
@@ -56,7 +56,7 @@ minetest.register_on_generated(function(minp, maxp, seed)
 	local t1 = os.clock()
 	local x0 = minp.x
 	local z0 = minp.z
-	print ("[highlandpools] chunk ("..x0.." "..y0.." "..z0..")")
+	--print ("[highlandpools] chunk ("..x0.." "..y0.." "..z0..")")
 	local x1 = maxp.x
 	local y1 = maxp.y
 	local z1 = maxp.z
@@ -68,7 +68,7 @@ minetest.register_on_generated(function(minp, maxp, seed)
 	
 	local c_air = minetest.get_content_id("air")
 	local c_ignore = minetest.get_content_id("ignore")
-	local c_watsour = minetest.get_content_id("default:water_source")
+	local c_watsour = minetest.get_content_id("default:river_water_source")
 	local c_grass = minetest.get_content_id("default:dirt_with_grass")
 	local c_tree = minetest.get_content_id("default:tree")
 	local c_apple = minetest.get_content_id("default:apple")
@@ -242,5 +242,29 @@ minetest.register_on_generated(function(minp, maxp, seed)
 	vm:write_to_map(data)
 	
 	local chugent = math.ceil((os.clock() - t1) * 1000)
-	print ("[highlandpools] time "..chugent.." ms")
+	--print ("[highlandpools] time "..chugent.." ms")
 end)
+
+local function dissolve(pos_dissolve, pos_liquid)
+   local node = minetest.get_node(pos_liquid)
+   local name = node.name
+   local nodedef = minetest.registered_nodes[name]
+   if nodedef and nodedef.liquidtype ~= "none" then
+          minetest.remove_node(pos_dissolve)
+      return true
+   end
+end
+
+minetest.register_abm({
+   nodenames = {"group:grass", "group:horsetail", "group:plant", "group:flower", "group:flora", "group:dry_grass", "group:leaves", "group:dissolve"},
+   neighbors = {"group:liquid"},
+   interval = 5,
+   chance = 1,
+   action = function(pos, node)
+      if dissolve(pos, {x=pos.x, y=pos.y+1, z=pos.z}) then return end
+      if dissolve(pos, {x=pos.x+1, y=pos.y, z=pos.z}) then return end
+      if dissolve(pos, {x=pos.x-1, y=pos.y, z=pos.z}) then return end
+      if dissolve(pos, {x=pos.x, y=pos.y, z=pos.z+1}) then return end
+      if dissolve(pos, {x=pos.x, y=pos.y, z=pos.z-1}) then return end
+   end,
+})
