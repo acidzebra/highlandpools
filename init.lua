@@ -16,6 +16,7 @@ highlandpools = {}
 
 function highlandpools_remtree(x, y, z, area, data)
 	local c_tree = minetest.get_content_id("default:tree")
+	local c_ethbirch = minetest.get_content_id("ethereal.birchtree")
 	local c_apple = minetest.get_content_id("default:apple")
 	local c_leaves = minetest.get_content_id("default:leaves")
 	local c_air = minetest.get_content_id("air")
@@ -25,6 +26,7 @@ function highlandpools_remtree(x, y, z, area, data)
 		local vi = area:index(x+i, y+j, z+k)
 		if data[vi] == c_tree
 		or data[vi] == c_apple
+		or data[vi] == c_ethbirch
 		or data[vi] == c_leaves then
 			data[vi] = c_air
 		end
@@ -256,7 +258,8 @@ local function dissolve(pos_dissolve, pos_liquid)
 end
 
 minetest.register_abm({
-   nodenames = {"group:grass", "group:horsetail", "group:plant", "group:flower", "group:flora", "group:dry_grass", "group:leaves", "group:dissolve"},
+   nodenames = {"group:grass", "group:horsetail", "group:plant", "group:flower", "group:flora", "group:dry_grass", "group:leaves", "group:dissolve", "group:bush", 
+   "group:bushes", "group:sapling", "group:vines"},
    neighbors = {"group:liquid"},
    interval = 5,
    chance = 1,
