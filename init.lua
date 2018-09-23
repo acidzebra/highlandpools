@@ -6,7 +6,7 @@
 -- Parameters
 
 local YMAX = 170 -- Maximum altitude for pools
-local FLOW = 256
+local FLOW = 32
 
 -- Stuff
 
@@ -16,7 +16,7 @@ highlandpools = {}
 
 function highlandpools_remtree(x, y, z, area, data)
 	local c_tree = minetest.get_content_id("default:tree")
-	local c_ethbirch = minetest.get_content_id("ethereal.birchtree")
+	local c_ethbirch = minetest.get_content_id("ethereal:birchtree")
 	local c_apple = minetest.get_content_id("default:apple")
 	local c_leaves = minetest.get_content_id("default:leaves")
 	local c_air = minetest.get_content_id("air")
@@ -252,7 +252,7 @@ local function dissolve(pos_dissolve, pos_liquid)
    local name = node.name
    local nodedef = minetest.registered_nodes[name]
    if nodedef and nodedef.liquidtype ~= "none" then
-          minetest.remove_node(pos_dissolve)
+          minetest.set_node(pos_dissolve, {name="air"})
       return true
    end
 end
