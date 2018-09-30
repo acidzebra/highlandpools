@@ -5,8 +5,8 @@
 
 -- Parameters
 
-local YMAX = 170 -- Maximum altitude for pools
-local FLOW = 512
+local YMAX = 195 -- Maximum altitude for pools
+local FLOW = 256
 
 -- Stuff
 
@@ -70,6 +70,10 @@ minetest.register_on_generated(function(minp, maxp, seed)
 	local c_ignore = minetest.get_content_id("ignore")
 	local c_watsour = minetest.get_content_id("default:river_water_source")
 	local c_grass = minetest.get_content_id("default:dirt_with_grass")
+	local c_grass2 = minetest.get_content_id("aotearoa:restiad_peat")
+	local c_grass3 = minetest.get_content_id("default:dirt_with_coniferous_litter")
+	local c_grass4 = minetest.get_content_id("aotearoa:forest_peat")
+	local c_grass5 = minetest.get_content_id("aotearoa:dirt_with_dark_litter")
 	local c_tree = minetest.get_content_id("default:tree")
 	local c_apple = minetest.get_content_id("default:apple")
 	local c_leaves = minetest.get_content_id("default:leaves")
@@ -86,6 +90,18 @@ minetest.register_on_generated(function(minp, maxp, seed)
 			elseif c_node == c_watsour then
 				break
 			elseif c_node == c_grass then
+				yasurf = y + 1
+				break
+			elseif c_node == c_grass2 then
+				yasurf = y + 1
+				break
+			elseif c_node == c_grass3 then
+				yasurf = y + 1
+				break
+			elseif c_node == c_grass4 then
+				yasurf = y + 1
+				break
+			elseif c_node == c_grass5 then
 				yasurf = y + 1
 				break
 			end
@@ -241,7 +257,7 @@ minetest.register_on_generated(function(minp, maxp, seed)
 	vm:calc_lighting()
 	vm:write_to_map(data)
 	
-	local chugent = math.ceil((os.clock() - t1) * 1000)
+	--local chugent = math.ceil((os.clock() - t1) * 1000)
 	--print ("[highlandpools] time "..chugent.." ms")
 end)
 
